@@ -1,0 +1,7 @@
+[0m[[0m[0mdebug[0m] [0m[0mPackaging /home/alejandro-armenta/SCALA-ENV/hello-spark/target/scala-2.13/hellospark_2.13-1.0.jar ...[0m
+[0m[[0m[0mdebug[0m] [0m[0mInput file mappings:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	HelloWorld$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/alejandro-armenta/SCALA-ENV/hello-spark/target/scala-2.13/classes/HelloWorld$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	HelloWorld.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/alejandro-armenta/SCALA-ENV/hello-spark/target/scala-2.13/classes/HelloWorld.class[0m
+[0m[[0m[0mdebug[0m] [0m[0mDone packaging.[0m
