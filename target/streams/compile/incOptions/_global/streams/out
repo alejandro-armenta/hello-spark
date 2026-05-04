@@ -7,4 +7,6 @@
 [0m[[0m[0mdebug[0m] [0m[0mRegistering generated classes:[0m
 [0m[[0m[0mdebug[0m] [0m[0m	HelloWorld$.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	HelloWorld.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	HelloWorld$Flight.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	HelloWorld$Flight$.class[0m
 [0m[[0m[0mdebug[0m] [0m[0mRemoving the temporary directory used for backing up class files: /home/alejandro-armenta/SCALA-ENV/hello-spark/target/scala-2.13/classes.bak[0m
