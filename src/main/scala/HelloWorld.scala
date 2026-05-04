@@ -7,16 +7,23 @@ object HelloWorld {
     {
         val spark = SparkSession.builder().appName("Hello Spark").master("local[*]").getOrCreate()
 
-        val df = spark.
+        spark.sparkContext.setLogLevel("WARN")
+
+        val a = spark.
         read.
-        format("com.databricks.spark.xml").
-        option("rowTag","row").
-        load("data/nasa-patents.xml")
+        option("inferSchema","true").
+        option("header","true").
+        csv("./data/2015-summary.csv")
 
-        df.show()
+        //converted to a local array list of rows.
+        //a.sort("count").explain()
 
-        df.printSchema
+        spark.conf.set("spark.sql.shuffle.partitions","5")
 
+        //necesitas el take sino no hace nada
+        val results = a.sort("count").take(2)
+
+        results.foreach(println)
 
 
     }
