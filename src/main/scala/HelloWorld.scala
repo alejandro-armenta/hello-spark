@@ -1,7 +1,13 @@
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.types.{DataTypes,StructField}
-import org.apache.spark.sql.functions.{window,col,desc,column,max}
 
+import org.apache.spark.sql.types.{StructField,StructType,StringType,LongType}
+import org.apache.spark.sql.types.Metadata
+
+import org.apache.spark.sql.functions.{window,col,desc,column,max,date_format}
+import org.apache.spark.ml.feature.{StringIndexer,OneHotEncoder,VectorAssembler}
+import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.clustering.KMeans
+import org.apache.spark.ml.evaluation.ClusteringEvaluator
 
 object HelloWorld {
 
@@ -22,67 +28,33 @@ object HelloWorld {
         spark.sparkContext.setLogLevel("WARN")
 
         spark.conf.set("spark.sql.shuffle.partitions","5")
+
+        import spark.implicits._
         
-        val staticDataFrame = spark.read.
-        format("csv").
-        option("header","true").
-        option("inferSchema","true").
-        load("data/retail-data/by-day/*.csv")
-
-        staticDataFrame.createOrReplaceTempView("retail_data")
-        val staticSchema = staticDataFrame.schema
-
-        val streamingDataFrame = spark.readStream.
-        schema(staticSchema).
-        option("maxFilesPerTrigger",1).
-        format("csv").
-        option("header","true").
-        load("data/retail-data/by-day/*.csv")
-
-        println(streamingDataFrame.isStreaming)
-
-        val purchaseByCustomerPerHour = streamingDataFrame.
-
-        selectExpr(
-            "CustomerId",
-            "(UnitPrice * Quantity) as total_cost",
-            "InvoiceDate"
-        ).
-
-        groupBy(
-            col("CustomerId"), 
-            window(col("InvoiceDate"), "1 day")
-        ).
-
-        sum("total_cost").
-
-        sort(
-            col("sum(total_cost)").desc
+        val myManualSchema = StructType(
+            Array(
+                StructField("DEST_COUNTRY_NAME", StringType, true),
+                StructField("ORIGIN_COUNTRY_NAME", StringType, true),
+                StructField(
+                    "count", 
+                    LongType, 
+                    false, 
+                    Metadata.fromJson(
+                        "{\"hello\":\"world\"}"
+                    ),
+                )
+            )
         )
 
-        val query = purchaseByCustomerPerHour.
-        writeStream.
-        format("console").
-        queryName("customer_purchases").
-        outputMode("complete").
-        start()
+        val df = spark.
+        read.
+        format("json").
+        schema(myManualSchema).
+        load("./data/flight-data/json/2015-summary.json")
 
-        query.awaitTermination()
+        df.printSchema()
 
 
-        /* 
-        Thread.sleep(5000) 
-
-        spark.sql("""
-        select * 
-        from customer_purchases
-        order by 'sum(total_cost)' desc
-        """).
-        show()
-         */
         
-
-
-        //println(a.count())
     }
 }

@@ -3,5 +3,6 @@ version := "1.0"
 scalaVersion := "2.13.17"
 
 libraryDependencies += "org.apache.spark" %% "spark-sql" % "4.1.1"
+libraryDependencies += "org.apache.spark" %% "spark-mllib" % "4.1.1"
 
 unmanagedSources / excludeFilter := HiddenFileFilter || "temp*"
